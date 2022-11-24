@@ -1,6 +1,5 @@
 package cc.rits.membership.console.reminder.helper
 
-
 import java.time.LocalDateTime
 
 /**

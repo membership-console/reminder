@@ -1,6 +1,5 @@
 package cc.rits.membership.console.reminder.infrastructure.api.controller
 
-
 import org.springframework.http.HttpStatus
 
 /**

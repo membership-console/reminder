@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `notification_browsing_history`
     `created_at`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX `fk_notification_browsing_history_notification_id_idx` (`notification_id` ASC) VISIBLE,
+    UNIQUE INDEX `notification_id_and_user_id_UNIQUE` (`notification_id` ASC, `user_id` ASC) VISIBLE,
     CONSTRAINT `fk_notification_browsing_history_notification_id`
         FOREIGN KEY (`notification_id`)
             REFERENCES `notification` (`id`)

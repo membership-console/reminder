@@ -1,6 +1,5 @@
 package cc.rits.membership.console.reminder.helper
 
-
 import cc.rits.membership.console.reminder.helper.table.TableParser
 import groovy.sql.Sql
 

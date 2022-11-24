@@ -1,15 +1,23 @@
 package cc.rits.membership.console.reminder.infrastructure.api.controller
 
-
 import cc.rits.membership.console.reminder.AbstractDatabaseSpecification
+import cc.rits.membership.console.reminder.auth.LoginUserDetails
+import cc.rits.membership.console.reminder.client.IamClient
+import cc.rits.membership.console.reminder.domain.model.UserGroupModel
+import cc.rits.membership.console.reminder.domain.model.UserModel
+import cc.rits.membership.console.reminder.enums.Role
 import cc.rits.membership.console.reminder.exception.BaseException
 import cc.rits.membership.console.reminder.helper.JsonConvertHelper
+import cc.rits.membership.console.reminder.helper.RandomHelper
 import cc.rits.membership.console.reminder.infrastructure.api.response.ErrorResponse
+import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
@@ -28,6 +36,9 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
  */
 abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
 
+    @SpringBean
+    IamClient iamClient = Mock()
+
     private MockMvc mockMvc
 
     @Autowired
@@ -41,6 +52,16 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
 
     @Shared
     protected Authentication authentication = null
+
+    /**
+     * ログインユーザのID
+     */
+    static final Integer LOGIN_USER_ID = 1
+
+    /**
+     * ログインユーザのメールアドレス
+     */
+    static final String LOGIN_USER_EMAIL = RandomHelper.email()
 
     /**
      * GET request
@@ -188,6 +209,35 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
     }
 
     /**
+     * ログイン
+     *
+     * @param roles ロールリスト
+     * @return ログインユーザ
+     */
+    protected UserModel login(final List<Role> roles) {
+        final loginUser = RandomHelper.mock(UserModel)
+        loginUser.setId(LOGIN_USER_ID)
+        loginUser.setEmail(LOGIN_USER_EMAIL)
+
+        final userGroup = RandomHelper.mock(UserGroupModel)
+        userGroup.setRoles(roles*.id)
+        loginUser.setUserGroups([userGroup])
+
+        final authorities = AuthorityUtils.createAuthorityList("ROLE_USER")
+        final principal = new LoginUserDetails(loginUser, authorities)
+        this.authentication = new UsernamePasswordAuthenticationToken(principal, null, authorities)
+
+        return loginUser
+    }
+
+    /**
+     * ログアウト
+     */
+    protected void logout() {
+        this.authentication = null
+    }
+
+    /**
      * setup before test case
      */
     def setup() {
@@ -199,6 +249,13 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
             }))
             .apply(springSecurity())
             .build()
+    }
+
+    /**
+     * cleanup after test case
+     */
+    def cleanup() {
+        this.logout()
     }
 
 }
