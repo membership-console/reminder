@@ -3,6 +3,7 @@ package cc.rits.membership.console.reminder.domain.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,12 +73,22 @@ public class NotificationModel implements Serializable {
     /**
      * ユーザが閲覧済みかチェック
      * 
-     * @param userId ユーザID
+     * @param user ユーザ
      * @return チェック結果
      */
-    public boolean isViewed(final Integer userId) {
+    public boolean isViewed(final UserModel user) {
         return this.browsingHistories.stream() //
-            .anyMatch(browsingHistory -> browsingHistory.getUserId().equals(userId));
+            .anyMatch(browsingHistory -> browsingHistory.getUserId().equals(user.getId()));
+    }
+
+    /**
+     * ユーザが投稿者かチェック
+     * 
+     * @param user ユーザ
+     * @return チェック結果
+     */
+    public boolean isContributed(final UserModel user) {
+        return this.getContributor().isPresent() && Objects.equals(this.getContributor().get().getId(), user.getId());
     }
 
 }

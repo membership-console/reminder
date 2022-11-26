@@ -31,7 +31,7 @@ public class GetNotificationsUseCase {
         // お知らせリストを取得
         final var notifications = this.notificationRepository.selectAll();
         final var unViewedNotifications = notifications.stream() //
-            .filter(notification -> !notification.isViewed(loginUser.getId())) //
+            .filter(notification -> !notification.isViewed(loginUser)) //
             .collect(Collectors.toList());
 
         // 全てのお知らせを既読にする

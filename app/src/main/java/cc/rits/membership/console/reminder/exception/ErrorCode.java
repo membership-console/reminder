@@ -34,6 +34,8 @@ public enum ErrorCode {
      */
     NOT_FOUND_API(HttpStatus.NOT_FOUND, 43000, "exception.not_found.api"),
 
+    NOT_FOUND_NOTIFICATION(HttpStatus.NOT_FOUND, 43001, "exception.not_found.notification"),
+
     /**
      * 45000~45999: 500 Internal Server Error
      */

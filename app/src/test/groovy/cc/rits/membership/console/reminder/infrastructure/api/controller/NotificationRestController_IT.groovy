@@ -22,7 +22,7 @@ class NotificationRestController_IT extends AbstractRestController_IT {
 
         // @formatter:off
         TableHelper.insert sql, "notification", {
-            id | title | body     | contributor
+            id | title | body     | contributor_id
             1  | "A"   | "A body" | 1
             2  | "B"   | "B body" | 2
             3  | "C"   | "C body" | 3
@@ -76,7 +76,7 @@ class NotificationRestController_IT extends AbstractRestController_IT {
 
         // @formatter:off
         TableHelper.insert sql, "notification", {
-            id | title | body | contributor
+            id | title | body | contributor_id
             1  | ""    | ""   | 1
             2  | ""    | ""   | 1
             3  | ""    | ""   | 1
