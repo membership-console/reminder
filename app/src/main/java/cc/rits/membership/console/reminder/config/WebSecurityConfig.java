@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
+import cc.rits.membership.console.reminder.auth.ReminderAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+
+    private final ReminderAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -35,7 +38,8 @@ public class WebSecurityConfig {
             .antMatchers("/api/health").permitAll() //
             .antMatchers("/api/**").hasRole("USER") //
             .antMatchers("/**").permitAll() //
-            .anyRequest().authenticated();
+            .anyRequest().authenticated() //
+            .and().exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);
 
         return http.build();
     }

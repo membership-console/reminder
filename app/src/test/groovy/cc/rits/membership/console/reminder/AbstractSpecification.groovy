@@ -1,6 +1,5 @@
 package cc.rits.membership.console.reminder
 
-
 import cc.rits.membership.console.reminder.exception.BaseException
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification

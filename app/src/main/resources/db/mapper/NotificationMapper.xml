@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.rits.membership.console.reminder.infrastructure.db.mapper.NotificationMapper">
+    <resultMap id="BaseResultMap" type="cc.rits.membership.console.reminder.infrastructure.db.entity.Notification"
+               extends="cc.rits.membership.console.reminder.infrastructure.db.mapper.base.NotificationBaseMapper.BaseResultMap"/>
+    <resultMap id="NotificationReminderResultMap"
+               type="cc.rits.membership.console.reminder.infrastructure.db.entity.NotificationReminder"
+               extends="cc.rits.membership.console.reminder.infrastructure.db.mapper.base.NotificationReminderBaseMapper.BaseResultMap"/>
+    <resultMap id="NotificationBrowsingHistoryResultMap"
+               type="cc.rits.membership.console.reminder.infrastructure.db.entity.NotificationBrowsingHistory"
+               extends="cc.rits.membership.console.reminder.infrastructure.db.mapper.base.NotificationBrowsingHistoryBaseMapper.BaseResultMap"/>
+
+    <resultMap id="NotificationWithRemindersAndBrowsingHistoriesResultMap"
+               type="cc.rits.membership.console.reminder.infrastructure.db.entity.join.NotificationWithRemindersAndBrowsingHistories"
+               extends="BaseResultMap">
+        <collection property="reminders" resultMap="NotificationReminderResultMap"
+                    columnPrefix="notification_reminder__">
+        </collection>
+        <collection property="browsingHistories" resultMap="NotificationBrowsingHistoryResultMap"
+                    columnPrefix="notification_browsing_history__">
+        </collection>
+    </resultMap>
+
+    <select id="selectAll" resultMap="NotificationWithRemindersAndBrowsingHistoriesResultMap">
+        SELECT DISTINCT notification.*,
+
+                        notification_reminder.id                      AS notification_reminder__id,
+                        notification_reminder.notification_id         AS notification_reminder__notification_id,
+                        notification_reminder.reminder_date           AS notification_reminder__reminder_date,
+
+                        notification_browsing_history.notification_id AS notification_browsing_history__notification_id,
+                        notification_browsing_history.user_id         AS notification_browsing_history__user_id,
+                        notification_browsing_history.viewed_date     AS notification_browsing_history__viewed_date
+
+        FROM notification
+                 LEFT JOIN notification_reminder ON notification_reminder.notification_id = notification.id
+                 LEFT JOIN notification_browsing_history
+                           ON notification_browsing_history.notification_id = notification.id
+        ORDER BY notification.id, notification_reminder.reminder_date, notification_browsing_history.user_id
+    </select>
+</mapper>
