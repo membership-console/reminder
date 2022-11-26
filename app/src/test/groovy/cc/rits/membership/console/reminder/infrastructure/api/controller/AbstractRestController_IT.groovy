@@ -70,7 +70,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return HTTP request builder
      */
-    MockHttpServletRequestBuilder getRequest(final String path) {
+    protected MockHttpServletRequestBuilder getRequest(final String path) {
         return MockMvcRequestBuilders.get(path)
             .with(authentication(this.authentication))
     }
@@ -82,7 +82,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return HTTP request builder
      */
-    MockHttpServletRequestBuilder postRequest(final String path) {
+    protected MockHttpServletRequestBuilder postRequest(final String path) {
         return MockMvcRequestBuilders.post(path)
             .with(authentication(this.authentication))
     }
@@ -95,7 +95,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return HTTP request builder
      */
-    MockHttpServletRequestBuilder postRequest(final String path, final MultiValueMap<String, String> params) {
+    protected MockHttpServletRequestBuilder postRequest(final String path, final MultiValueMap<String, String> params) {
         return MockMvcRequestBuilders.post(path)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .params(params)
@@ -110,7 +110,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return HTTP request builder
      */
-    MockHttpServletRequestBuilder postRequest(final String path, final Object content) {
+    protected MockHttpServletRequestBuilder postRequest(final String path, final Object content) {
         return MockMvcRequestBuilders.post(path)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(JsonConvertHelper.convertObjectToJson(content))
@@ -125,7 +125,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return HTTP request builder
      */
-    MockHttpServletRequestBuilder putRequest(final String path, final Object content) {
+    protected MockHttpServletRequestBuilder putRequest(final String path, final Object content) {
         return MockMvcRequestBuilders.put(path)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(JsonConvertHelper.convertObjectToJson(content))
@@ -139,7 +139,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return HTTP request builder
      */
-    MockHttpServletRequestBuilder deleteRequest(final String path) {
+    protected MockHttpServletRequestBuilder deleteRequest(final String path) {
         return MockMvcRequestBuilders.delete(path)
             .with(authentication(this.authentication))
     }
@@ -152,7 +152,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return MVC result
      */
-    MvcResult execute(final MockHttpServletRequestBuilder request, final HttpStatus status) {
+    protected MvcResult execute(final MockHttpServletRequestBuilder request, final HttpStatus status) {
         final result = this.mockMvc.perform(request).andReturn()
 
         assert result.response.status == status.value()
@@ -168,7 +168,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return response
      */
-    def <T> T execute(final MockHttpServletRequestBuilder request, final HttpStatus status, final Class<T> clazz) {
+    protected <T> T execute(final MockHttpServletRequestBuilder request, final HttpStatus status, final Class<T> clazz) {
         final result = this.mockMvc.perform(request).andReturn()
 
         assert result.response.status == status.value()
@@ -183,7 +183,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
      *
      * @return error response
      */
-    ErrorResponse execute(final MockHttpServletRequestBuilder request, final BaseException exception) {
+    protected ErrorResponse execute(final MockHttpServletRequestBuilder request, final BaseException exception) {
         final result = this.mockMvc.perform(request).andReturn()
         final response = JsonConvertHelper.convertJsonToObject(result.response.contentAsString, ErrorResponse.class)
 
@@ -240,7 +240,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
     /**
      * setup before test case
      */
-    def setup() {
+    void setup() {
         this.mockMvc = MockMvcBuilders
             .webAppContextSetup(this.webApplicationContext)
             .addFilter(({ request, response, chain ->
@@ -254,7 +254,7 @@ abstract class AbstractRestController_IT extends AbstractDatabaseSpecification {
     /**
      * cleanup after test case
      */
-    def cleanup() {
+    void cleanup() {
         this.logout()
     }
 

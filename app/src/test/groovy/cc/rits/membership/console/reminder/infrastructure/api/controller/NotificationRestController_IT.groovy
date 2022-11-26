@@ -1,7 +1,10 @@
 package cc.rits.membership.console.reminder.infrastructure.api.controller
 
 import cc.rits.membership.console.reminder.domain.model.UserModel
+import cc.rits.membership.console.reminder.enums.Role
 import cc.rits.membership.console.reminder.exception.ErrorCode
+import cc.rits.membership.console.reminder.exception.ForbiddenException
+import cc.rits.membership.console.reminder.exception.NotFoundException
 import cc.rits.membership.console.reminder.exception.UnauthorizedException
 import cc.rits.membership.console.reminder.helper.TableHelper
 import cc.rits.membership.console.reminder.infrastructure.api.response.NotificationsResponse
@@ -15,6 +18,7 @@ class NotificationRestController_IT extends AbstractRestController_IT {
     // API PATH
     static final String BASE_PATH = "/api/notifications"
     static final String GET_NOTIFICATIONS_PATH = BASE_PATH
+    static final String DELETE_NOTIFICATION_PATH = BASE_PATH + "/%d"
 
     def "お知らせリスト取得API: 正常系 お知らせリストを取得できる"() {
         given:
@@ -110,6 +114,76 @@ class NotificationRestController_IT extends AbstractRestController_IT {
     def "お知らせリスト取得API: 異常系 ログインしていない場合は401エラー"() {
         expect:
         final request = this.getRequest(GET_NOTIFICATIONS_PATH)
+        execute(request, new UnauthorizedException(ErrorCode.USER_NOT_LOGGED_IN))
+    }
+
+    def "お知らせ削除API: 正常系 投稿者、もしくはリマインダーの管理者がお知らせを削除"() {
+        given:
+        final loginUser = this.login(inputRoles)
+
+        // @formatter:off
+        TableHelper.insert sql, "notification", {
+            id | title | body | contributor_id
+            1  | ""    | ""   | 1
+            2  | ""    | ""   | 1
+        }
+        // @formatter:on
+
+        when:
+        final request = this.deleteRequest(String.format(DELETE_NOTIFICATION_PATH, 1))
+        execute(request, HttpStatus.OK)
+
+        then:
+        1 * this.iamClient.getUser(_) >> Optional.ofNullable(contributor)
+
+        final notifications = sql.rows("SELECT * FROM notification")
+        notifications*.id == [2]
+
+        where:
+        inputRoles            | contributor
+        [Role.REMINDER_ADMIN] | UserModel.builder().id(LOGIN_USER_ID).build()
+        [Role.REMINDER_ADMIN] | UserModel.builder().id(LOGIN_USER_ID + 1).build()
+        [Role.REMINDER_ADMIN] | null
+        []                    | UserModel.builder().id(LOGIN_USER_ID).build()
+    }
+
+    def "お知らせ削除API: 異常系 投稿者でもリマインダーの管理者でもない場合は403エラー"() {
+        given:
+        final loginUser = this.login([])
+
+        // @formatter:off
+        TableHelper.insert sql, "notification", {
+            id | title | body | contributor_id
+            1  | ""    | ""   | loginUser.id + 1
+        }
+        // @formatter:on
+
+        when:
+        final request = this.deleteRequest(String.format(DELETE_NOTIFICATION_PATH, 1))
+        execute(request, new ForbiddenException(ErrorCode.USER_HAS_NO_PERMISSION))
+
+        then:
+        1 * this.iamClient.getUser(_) >> Optional.ofNullable(contributor)
+
+        where:
+        contributor << [
+            UserModel.builder().id(LOGIN_USER_ID + 1).build(),
+            null,
+        ]
+    }
+
+    def "お知らせ削除API: 異常系 お知らせが存在しない場合は404エラー"() {
+        given:
+        this.login([])
+
+        expect:
+        final request = this.deleteRequest(String.format(DELETE_NOTIFICATION_PATH, 1))
+        execute(request, new NotFoundException(ErrorCode.NOT_FOUND_NOTIFICATION))
+    }
+
+    def "お知らせ削除API: 異常系 ログインしていない場合は401エラー"() {
+        expect:
+        final request = this.deleteRequest(String.format(DELETE_NOTIFICATION_PATH, 1))
         execute(request, new UnauthorizedException(ErrorCode.USER_NOT_LOGGED_IN))
     }
 

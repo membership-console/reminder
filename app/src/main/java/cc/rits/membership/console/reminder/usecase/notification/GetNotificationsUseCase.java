@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import cc.rits.membership.console.reminder.domain.model.NotificationBrowsingHistoryModel;
 import cc.rits.membership.console.reminder.domain.model.NotificationModel;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class GetNotificationsUseCase {
 
     private final INotificationRepository notificationRepository;

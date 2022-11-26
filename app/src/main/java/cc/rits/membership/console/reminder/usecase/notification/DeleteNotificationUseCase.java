@@ -1,6 +1,7 @@
 package cc.rits.membership.console.reminder.usecase.notification;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import cc.rits.membership.console.reminder.domain.model.UserModel;
 import cc.rits.membership.console.reminder.domain.repository.INotificationRepository;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class DeleteNotificationUseCase {
 
     private final INotificationRepository notificationRepository;
