@@ -15,7 +15,7 @@ class TableHelper {
      * @param tableName テーブル名
      * @param tableData テーブルデータ
      */
-    def static insert(final Sql sql, final String tableName, final Closure rows) {
+    static void insert(final Sql sql, final String tableName, final Closure rows) {
         TableParser.asTable(rows).toMapList().each {
             sql.dataSet("`$tableName`").add(it)
         }
@@ -30,7 +30,7 @@ class TableHelper {
      * @param tableData テーブルデータ
      * @param append 全レコードで共通の値
      */
-    def static insert(final Sql sql, final String tableName, final Closure rows, final Map append) {
+    static void insert(final Sql sql, final String tableName, final Closure rows, final Map append) {
         TableParser.asTable(rows).toMapList().each {
             sql.dataSet("`$tableName`").add(it + append)
         }

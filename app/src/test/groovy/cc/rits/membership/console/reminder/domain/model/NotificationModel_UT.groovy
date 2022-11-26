@@ -12,9 +12,12 @@ class NotificationModel_UT extends AbstractSpecification {
         final notification = NotificationModel.builder()
             .browsingHistory(NotificationBrowsingHistoryModel.builder().userId(1).build())
             .build()
+        final user = UserModel.builder()
+            .id(inputUserId)
+            .build()
 
         when:
-        final result = notification.isViewed(inputUserId)
+        final result = notification.isViewed(user)
 
         then:
         result == expectedResult
@@ -23,6 +26,28 @@ class NotificationModel_UT extends AbstractSpecification {
         inputUserId || expectedResult
         1           || true
         2           || false
+    }
+
+    def "isContributed: ユーザが投稿者かチェック"() {
+        given:
+        final notification = NotificationModel.builder()
+            .contributor(Optional.ofNullable(inputContributor))
+            .build()
+        final user = UserModel.builder()
+            .id(inputUserId)
+            .build()
+
+        when:
+        final result = notification.isContributed(user)
+
+        then:
+        result == expectedResult
+
+        where:
+        inputUserId | inputContributor                  || expectedResult
+        1           | UserModel.builder().id(1).build() || true
+        1           | UserModel.builder().id(2).build() || false
+        1           | null                              || false
     }
 
 }

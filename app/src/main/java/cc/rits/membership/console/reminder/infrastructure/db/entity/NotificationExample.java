@@ -395,63 +395,63 @@ public class NotificationExample {
             return (Criteria) this;
         }
 
-        public Criteria andContributorIsNull() {
-            addCriterion("`contributor` is null");
+        public Criteria andContributorIdIsNull() {
+            addCriterion("`contributor_id` is null");
             return (Criteria) this;
         }
 
-        public Criteria andContributorIsNotNull() {
-            addCriterion("`contributor` is not null");
+        public Criteria andContributorIdIsNotNull() {
+            addCriterion("`contributor_id` is not null");
             return (Criteria) this;
         }
 
-        public Criteria andContributorEqualTo(Integer value) {
-            addCriterion("`contributor` =", value, "contributor");
+        public Criteria andContributorIdEqualTo(Integer value) {
+            addCriterion("`contributor_id` =", value, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorNotEqualTo(Integer value) {
-            addCriterion("`contributor` <>", value, "contributor");
+        public Criteria andContributorIdNotEqualTo(Integer value) {
+            addCriterion("`contributor_id` <>", value, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorGreaterThan(Integer value) {
-            addCriterion("`contributor` >", value, "contributor");
+        public Criteria andContributorIdGreaterThan(Integer value) {
+            addCriterion("`contributor_id` >", value, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`contributor` >=", value, "contributor");
+        public Criteria andContributorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`contributor_id` >=", value, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorLessThan(Integer value) {
-            addCriterion("`contributor` <", value, "contributor");
+        public Criteria andContributorIdLessThan(Integer value) {
+            addCriterion("`contributor_id` <", value, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorLessThanOrEqualTo(Integer value) {
-            addCriterion("`contributor` <=", value, "contributor");
+        public Criteria andContributorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("`contributor_id` <=", value, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorIn(List<Integer> values) {
-            addCriterion("`contributor` in", values, "contributor");
+        public Criteria andContributorIdIn(List<Integer> values) {
+            addCriterion("`contributor_id` in", values, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorNotIn(List<Integer> values) {
-            addCriterion("`contributor` not in", values, "contributor");
+        public Criteria andContributorIdNotIn(List<Integer> values) {
+            addCriterion("`contributor_id` not in", values, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorBetween(Integer value1, Integer value2) {
-            addCriterion("`contributor` between", value1, value2, "contributor");
+        public Criteria andContributorIdBetween(Integer value1, Integer value2) {
+            addCriterion("`contributor_id` between", value1, value2, "contributorId");
             return (Criteria) this;
         }
 
-        public Criteria andContributorNotBetween(Integer value1, Integer value2) {
-            addCriterion("`contributor` not between", value1, value2, "contributor");
+        public Criteria andContributorIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("`contributor_id` not between", value1, value2, "contributorId");
             return (Criteria) this;
         }
 

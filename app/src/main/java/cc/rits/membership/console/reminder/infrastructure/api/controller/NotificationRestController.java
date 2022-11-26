@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import cc.rits.membership.console.reminder.auth.LoginUserDetails;
 import cc.rits.membership.console.reminder.infrastructure.api.response.NotificationResponse;
 import cc.rits.membership.console.reminder.infrastructure.api.response.NotificationsResponse;
+import cc.rits.membership.console.reminder.usecase.notification.DeleteNotificationUseCase;
 import cc.rits.membership.console.reminder.usecase.notification.GetNotificationsUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class NotificationRestController {
 
     private final GetNotificationsUseCase getNotificationsUseCase;
+
+    private final DeleteNotificationUseCase deleteNotificationUseCase;
 
     /**
      * お知らせリスト取得API
@@ -44,6 +47,21 @@ public class NotificationRestController {
             .map(notification -> new NotificationResponse(notification, loginUser)) //
             .collect(Collectors.toList());
         return new NotificationsResponse(notifications);
+    }
+
+    /**
+     * お知らせ削除API
+     *
+     * @param loginUser ログインユーザ
+     * @param notificationId お知らせID
+     */
+    @DeleteMapping("/{notification_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void getNotifications( //
+        @AuthenticationPrincipal final LoginUserDetails loginUser, //
+        @PathVariable("notification_id") final Integer notificationId //
+    ) {
+        this.deleteNotificationUseCase.handle(loginUser, notificationId);
     }
 
 }
