@@ -55,6 +55,12 @@ public class NotificationRepository implements INotificationRepository {
     }
 
     @Override
+    public void insert(final NotificationModel notificationModel) {
+        final var notification = this.notificationFactory.createNotification(notificationModel);
+        this.notificationMapper.insertSelective(notification);
+    }
+
+    @Override
     public void insertBrowsingHistories(final List<NotificationBrowsingHistoryModel> notificationBrowsingHistoryModels) {
         final var notificationBrowsingHistories = notificationBrowsingHistoryModels.stream() //
             .map(this.notificationFactory::createNotificationBrowsingHistory) //

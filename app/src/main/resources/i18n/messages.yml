@@ -2,6 +2,8 @@ exception:
   bad_request:
     validation_error: "不正なリクエストです。問題が解決しない場合は、管理者までご連絡ください。"
     invalid_request_parameter: "不正なリクエストです。問題が解決しない場合は、管理者までご連絡ください。"
+    invalid_notification_title: "タイトルは1~100文字にしてください。"
+    invalid_notification_body: "本文は1~100文字にしてください。"
   unauthorized:
     user_not_logged_in: "ユーザはログインしていません。問題が解決しない場合は、管理者までご連絡ください。"
   forbidden:

@@ -19,6 +19,10 @@ public enum ErrorCode {
 
     INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, 40001, "exception.bad_request.invalid_request_parameter"),
 
+    INVALID_NOTIFICATION_TITLE(HttpStatus.BAD_REQUEST, 40002, "exception.bad_request.invalid_notification_title"),
+
+    INVALID_NOTIFICATION_BODY(HttpStatus.BAD_REQUEST, 40003, "exception.bad_request.invalid_notification_body"),
+
     /**
      * 41000~41999: 401 Unauthorized
      */
