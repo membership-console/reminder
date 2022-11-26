@@ -42,7 +42,8 @@ public class NotificationModel implements Serializable {
     /**
      * 投稿日
      */
-    LocalDateTime postedDate;
+    @Builder.Default
+    LocalDateTime postedDate = LocalDateTime.now();
 
     /**
      * リマインダーリスト
@@ -68,6 +69,15 @@ public class NotificationModel implements Serializable {
         this.browsingHistories = notification.getBrowsingHistories().stream() //
             .map(NotificationBrowsingHistoryModel::new) //
             .collect(Collectors.toList());
+    }
+
+    public NotificationModel(final String title, final String body, final UserModel user) {
+        this.title = title;
+        this.body = body;
+        this.contributor = Optional.of(user);
+        this.postedDate = LocalDateTime.now();
+        this.reminders = List.of();
+        this.browsingHistories = List.of();
     }
 
     /**

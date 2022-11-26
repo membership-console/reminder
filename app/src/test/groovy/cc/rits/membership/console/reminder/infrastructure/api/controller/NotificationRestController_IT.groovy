@@ -2,11 +2,10 @@ package cc.rits.membership.console.reminder.infrastructure.api.controller
 
 import cc.rits.membership.console.reminder.domain.model.UserModel
 import cc.rits.membership.console.reminder.enums.Role
-import cc.rits.membership.console.reminder.exception.ErrorCode
-import cc.rits.membership.console.reminder.exception.ForbiddenException
-import cc.rits.membership.console.reminder.exception.NotFoundException
-import cc.rits.membership.console.reminder.exception.UnauthorizedException
+import cc.rits.membership.console.reminder.exception.*
+import cc.rits.membership.console.reminder.helper.RandomHelper
 import cc.rits.membership.console.reminder.helper.TableHelper
+import cc.rits.membership.console.reminder.infrastructure.api.request.NotificationCreateRequest
 import cc.rits.membership.console.reminder.infrastructure.api.response.NotificationsResponse
 import org.springframework.http.HttpStatus
 
@@ -18,6 +17,7 @@ class NotificationRestController_IT extends AbstractRestController_IT {
     // API PATH
     static final String BASE_PATH = "/api/notifications"
     static final String GET_NOTIFICATIONS_PATH = BASE_PATH
+    static final String CREATE_NOTIFICATIONS_PATH = BASE_PATH
     static final String DELETE_NOTIFICATION_PATH = BASE_PATH + "/%d"
 
     def "お知らせリスト取得API: 正常系 お知らせリストを取得できる"() {
@@ -114,6 +114,72 @@ class NotificationRestController_IT extends AbstractRestController_IT {
     def "お知らせリスト取得API: 異常系 ログインしていない場合は401エラー"() {
         expect:
         final request = this.getRequest(GET_NOTIFICATIONS_PATH)
+        execute(request, new UnauthorizedException(ErrorCode.USER_NOT_LOGGED_IN))
+    }
+
+    def "お知らせ作成API: 正常系 お知らせを作成すると全ユーザにメール配信される"() {
+        given:
+        final loginUser = this.login([])
+
+        final requestBody = NotificationCreateRequest.builder()
+            .title(inputTitle)
+            .body(inputBody)
+            .build()
+
+        final users = [
+            RandomHelper.mock(UserModel),
+            RandomHelper.mock(UserModel),
+        ]
+
+        when:
+        final request = this.postRequest(CREATE_NOTIFICATIONS_PATH, requestBody)
+        execute(request, HttpStatus.CREATED)
+
+        then:
+        1 * this.iamClient.getUsers() >> users
+        1 * this.iamClient.sendEmail(requestBody.title, requestBody.body, users*.id) >> {}
+
+        final notification = sql.firstRow("SELECT * FROM notification")
+        notification.title == requestBody.title
+        notification.body == requestBody.body
+        notification.contributor_id == loginUser.id
+
+        where:
+        inputTitle                     | inputBody
+        RandomHelper.alphanumeric(1)   | RandomHelper.alphanumeric(1)
+        RandomHelper.alphanumeric(100) | RandomHelper.alphanumeric(1000)
+    }
+
+    def "お知らせ作成API: 異常系 リクエストボディのバリデーション"() {
+        given:
+        this.login([])
+
+        final requestBody = NotificationCreateRequest.builder()
+            .title(inputTitle)
+            .body(inputBody)
+            .build()
+
+        expect:
+        final request = this.postRequest(CREATE_NOTIFICATIONS_PATH, requestBody)
+        execute(request, new BadRequestException(expectedErrorCode))
+
+        where:
+        inputTitle                     | inputBody                       || expectedErrorCode
+        RandomHelper.alphanumeric(0)   | RandomHelper.alphanumeric(1)    || ErrorCode.INVALID_NOTIFICATION_TITLE
+        RandomHelper.alphanumeric(101) | RandomHelper.alphanumeric(1)    || ErrorCode.INVALID_NOTIFICATION_TITLE
+        RandomHelper.alphanumeric(1)   | RandomHelper.alphanumeric(0)    || ErrorCode.INVALID_NOTIFICATION_BODY
+        RandomHelper.alphanumeric(1)   | RandomHelper.alphanumeric(1001) || ErrorCode.INVALID_NOTIFICATION_BODY
+    }
+
+    def "お知らせ作成API: 異常系 ログインしていない場合は401エラー"() {
+        given:
+        final requestBody = NotificationCreateRequest.builder()
+            .title(RandomHelper.alphanumeric(10))
+            .body(RandomHelper.alphanumeric(10))
+            .build()
+
+        expect:
+        final request = this.postRequest(CREATE_NOTIFICATIONS_PATH, requestBody)
         execute(request, new UnauthorizedException(ErrorCode.USER_NOT_LOGGED_IN))
     }
 

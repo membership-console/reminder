@@ -1,7 +1,9 @@
 package cc.rits.membership.console.reminder.infrastructure.repository
 
 import cc.rits.membership.console.reminder.domain.model.NotificationBrowsingHistoryModel
+import cc.rits.membership.console.reminder.domain.model.NotificationModel
 import cc.rits.membership.console.reminder.domain.model.UserModel
+import cc.rits.membership.console.reminder.helper.RandomHelper
 import cc.rits.membership.console.reminder.helper.TableHelper
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -107,6 +109,23 @@ class NotificationRepository_UT extends AbstractRepository_UT {
 
         then:
         result.isEmpty()
+    }
+
+    def "insert: お知らせを作成"() {
+        given:
+        final user = UserModel.builder()
+            .id(1)
+            .build()
+        final notification = new NotificationModel(RandomHelper.alphanumeric(10), RandomHelper.alphanumeric(10), user)
+
+        when:
+        this.sut.insert(notification)
+
+        then:
+        final createdNotification = sql.firstRow("SELECT * FROM notification")
+        createdNotification.title == notification.title
+        createdNotification.body == notification.body
+        createdNotification.contributor_id == user.id
     }
 
     def "insertBrowsingHistories: 閲覧履歴リストを作成"() {

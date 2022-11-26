@@ -27,7 +27,14 @@ public interface INotificationRepository {
     Optional<NotificationModel> selectById(final Integer id);
 
     /**
-     * 閲覧履歴リストを作成する
+     * お知らせを作成
+     * 
+     * @param notificationModel お知らせ
+     */
+    void insert(final NotificationModel notificationModel);
+
+    /**
+     * 閲覧履歴リストを作成
      * 
      * @param notificationBrowsingHistoryModels 閲覧履歴リスト
      */

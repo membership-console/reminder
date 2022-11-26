@@ -9,8 +9,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import cc.rits.membership.console.reminder.auth.LoginUserDetails;
+import cc.rits.membership.console.reminder.infrastructure.api.request.NotificationCreateRequest;
 import cc.rits.membership.console.reminder.infrastructure.api.response.NotificationResponse;
 import cc.rits.membership.console.reminder.infrastructure.api.response.NotificationsResponse;
+import cc.rits.membership.console.reminder.infrastructure.api.validation.RequestValidated;
+import cc.rits.membership.console.reminder.usecase.notification.CreateNotificationUseCase;
 import cc.rits.membership.console.reminder.usecase.notification.DeleteNotificationUseCase;
 import cc.rits.membership.console.reminder.usecase.notification.GetNotificationsUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class NotificationRestController {
 
     private final GetNotificationsUseCase getNotificationsUseCase;
+
+    private final CreateNotificationUseCase createNotificationUseCase;
 
     private final DeleteNotificationUseCase deleteNotificationUseCase;
 
@@ -50,6 +55,21 @@ public class NotificationRestController {
     }
 
     /**
+     * お知らせ作成API
+     *
+     * @param loginUser ログインユーザ
+     * @param requestBody お知らせ作成リクエスト
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createNotification( //
+        @AuthenticationPrincipal final LoginUserDetails loginUser, //
+        @RequestValidated @RequestBody final NotificationCreateRequest requestBody //
+    ) {
+        this.createNotificationUseCase.handle(loginUser, requestBody);
+    }
+
+    /**
      * お知らせ削除API
      *
      * @param loginUser ログインユーザ
@@ -57,7 +77,7 @@ public class NotificationRestController {
      */
     @DeleteMapping("/{notification_id}")
     @ResponseStatus(HttpStatus.OK)
-    public void getNotifications( //
+    public void deleteNotification( //
         @AuthenticationPrincipal final LoginUserDetails loginUser, //
         @PathVariable("notification_id") final Integer notificationId //
     ) {
