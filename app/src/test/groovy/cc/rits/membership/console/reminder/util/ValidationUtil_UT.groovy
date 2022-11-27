@@ -1,6 +1,5 @@
 package cc.rits.membership.console.reminder.util
 
-
 import cc.rits.membership.console.reminder.AbstractSpecification
 import cc.rits.membership.console.reminder.helper.RandomHelper
 

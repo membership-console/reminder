@@ -34,7 +34,7 @@ public class CreateNotificationReminderUseCase {
      * @param requestBody リマインダー作成リクエスト
      */
     public void handle(final UserModel loginUser, final Integer notificationId, final NotificationReminderCreateRequest requestBody) {
-        // リマインダー作成対象のお知らせを取得
+        // お知らせを取得
         final var notification = this.notificationRepository.selectById(notificationId) //
             .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_NOTIFICATION));
 

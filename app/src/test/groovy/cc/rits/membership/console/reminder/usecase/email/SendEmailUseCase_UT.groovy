@@ -1,6 +1,5 @@
 package cc.rits.membership.console.reminder.usecase.email
 
-
 import cc.rits.membership.console.reminder.helper.RandomHelper
 import cc.rits.membership.console.reminder.infrastructure.api.request.EmailSendRequest
 import cc.rits.membership.console.reminder.usecase.AbstractUseCase_UT
