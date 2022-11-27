@@ -1,6 +1,9 @@
 package cc.rits.membership.console.reminder.helper
 
+
 import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.temporal.ChronoUnit
 
 /**
  * 日付ヘルパー
@@ -44,6 +47,19 @@ class DateHelper {
      */
     static LocalDateTime yesterday() {
         return LocalDateTime.now().minusDays(1)
+    }
+
+    /**
+     * 2つの日付が分まで一致するかチェック
+     *
+     * @param date1 date
+     * @param date2 date
+     * @return チェック結果
+     */
+    static boolean isSameMinutes(final LocalDateTime date1, final LocalDateTime date2) {
+        final instant1 = date1.toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES)
+        final instant2 = date2.toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES)
+        return instant1 == instant2
     }
 
 }

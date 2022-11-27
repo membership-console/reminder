@@ -31,7 +31,7 @@ public class NotificationReminderResponse {
     Integer notificationId;
 
     /**
-     * リマインダー日時
+     * リマインド日時
      */
     @Schema(required = true)
     LocalDateTime reminderDate;
