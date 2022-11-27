@@ -5,7 +5,7 @@ import cc.rits.membership.console.reminder.helper.DateHelper
 import cc.rits.membership.console.reminder.helper.TableHelper
 import org.springframework.beans.factory.annotation.Autowired
 
-import java.time.LocalDateTime
+import java.sql.Date
 
 /**
  * NotificationReminderRepositoryの単体テスト
@@ -26,7 +26,7 @@ class NotificationReminderRepository_UT extends AbstractRepository_UT {
 
         final notificationReminder = NotificationReminderModel.builder()
             .notificationId(1)
-            .reminderDate(DateHelper.tomorrow())
+            .scheduledDate(DateHelper.tomorrow().toLocalDate())
             .build()
 
         when:
@@ -35,7 +35,7 @@ class NotificationReminderRepository_UT extends AbstractRepository_UT {
         then:
         final createdNotificationReminder = sql.firstRow("SELECT * FROM notification_reminder")
         createdNotificationReminder.notification_id == 1
-        DateHelper.isSameMinutes(createdNotificationReminder.reminder_date as LocalDateTime, notificationReminder.reminderDate)
+        notificationReminder.scheduledDate.isEqual((createdNotificationReminder.scheduled_date as Date).toLocalDate())
     }
 
     def "delete: IDからリマインダーを削除"() {
@@ -46,7 +46,7 @@ class NotificationReminderRepository_UT extends AbstractRepository_UT {
             1  | ""    | ""   | 1
         }
         TableHelper.insert sql, "notification_reminder", {
-            id | notification_id | reminder_date
+            id | notification_id | scheduled_date
             1  | 1               | "2000-01-01 00:00:00"
             2  | 1               | "2000-01-02 00:00:00"
         }
@@ -60,6 +60,29 @@ class NotificationReminderRepository_UT extends AbstractRepository_UT {
         notificationReminders*.id == [2]
     }
 
+    def "deleteByIds: IDリストからリマインダーリストを削除"() {
+        given:
+        // @formatter:off
+        TableHelper.insert sql, "notification", {
+            id | title | body | contributor_id
+            1  | ""    | ""   | 1
+        }
+        TableHelper.insert sql, "notification_reminder", {
+            id | notification_id | scheduled_date
+            1  | 1               | "2000-01-01 00:00:00"
+            2  | 1               | "2000-01-02 00:00:00"
+            3  | 1               | "2000-01-02 00:00:00"
+        }
+        // @formatter:on
+
+        when:
+        this.sut.deleteByIds([1, 2])
+
+        then:
+        final notificationReminders = sql.rows("SELECT * FROM notification_reminder")
+        notificationReminders*.id == [3]
+    }
+
     def "existsById: IDからリマインダーの存在チェック"() {
         given:
         // @formatter:off
@@ -68,7 +91,7 @@ class NotificationReminderRepository_UT extends AbstractRepository_UT {
             1  | ""    | ""   | 1
         }
         TableHelper.insert sql, "notification_reminder", {
-            id | notification_id | reminder_date
+            id | notification_id | scheduled_date
             1  | 1               | "2000-01-01 00:00:00"
         }
         // @formatter:on

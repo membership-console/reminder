@@ -25,7 +25,7 @@ class NotificationRepository_UT extends AbstractRepository_UT {
             3  | "C"   | "C body" | 3
         }
         TableHelper.insert sql, "notification_reminder", {
-            id | notification_id | reminder_date
+            id | notification_id | scheduled_date
             1  | 1               | "2000-01-01 00:00:00"
             2  | 1               | "2000-01-02 00:00:00"
             3  | 2               | "2000-01-01 00:00:00"
@@ -74,7 +74,7 @@ class NotificationRepository_UT extends AbstractRepository_UT {
             1  | "A"   | "A body" | 1
         }
         TableHelper.insert sql, "notification_reminder", {
-            id | notification_id | reminder_date
+            id | notification_id | scheduled_date
             1  | 1               | "2000-01-01 00:00:00"
             2  | 1               | "2000-01-02 00:00:00"
         }

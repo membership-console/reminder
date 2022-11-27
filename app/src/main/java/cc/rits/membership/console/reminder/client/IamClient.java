@@ -78,6 +78,10 @@ public class IamClient {
      * @param userIds ユーザIDリスト
      */
     public void sendEmail(final String subject, final String body, final List<Integer> userIds) {
+        if (userIds.isEmpty()) {
+            return;
+        }
+
         final var accessToken = this.authenticate();
         final var headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, String.format("%s %s", accessToken.token_type, accessToken.access_token));
