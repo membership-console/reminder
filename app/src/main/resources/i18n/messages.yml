@@ -13,5 +13,6 @@ exception:
   not_found:
     api: "APIが見つかりません。"
     notification: "お知らせが見つかりません。"
+    notification_reminder: "リマインダーが見つかりません。"
   internal_server_error:
     unexpected_error: "予期しないエラーが発生しました。問題が解決しない場合は、管理者までご連絡ください。"

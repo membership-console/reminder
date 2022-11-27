@@ -1,6 +1,7 @@
 package cc.rits.membership.console.reminder.usecase.notification_reminder
 
 import cc.rits.membership.console.reminder.domain.model.NotificationModel
+import cc.rits.membership.console.reminder.domain.model.NotificationReminderModel
 import cc.rits.membership.console.reminder.domain.model.UserModel
 import cc.rits.membership.console.reminder.enums.Role
 import cc.rits.membership.console.reminder.exception.BaseException
@@ -8,31 +9,30 @@ import cc.rits.membership.console.reminder.exception.ErrorCode
 import cc.rits.membership.console.reminder.exception.ForbiddenException
 import cc.rits.membership.console.reminder.exception.NotFoundException
 import cc.rits.membership.console.reminder.helper.RandomHelper
-import cc.rits.membership.console.reminder.infrastructure.api.request.NotificationReminderCreateRequest
 import cc.rits.membership.console.reminder.usecase.AbstractUseCase_UT
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * CreateNotificationReminderUseCaseの単体テスト
  */
-class CreateNotificationReminderUseCase_UT extends AbstractUseCase_UT {
+class DeleteNotificationReminderUseCase_UT extends AbstractUseCase_UT {
 
     @Autowired
-    CreateNotificationReminderUseCase sut
+    DeleteNotificationReminderUseCase sut
 
-    def "handle: 投稿者、もしくはリマインダーの管理者がリマインダーを作成"() {
+    def "handle: 投稿者、もしくはリマインダーの管理者がリマインダーを削除"() {
         given:
         final loginUser = Spy(UserModel)
         final notification = Spy(NotificationModel)
-
-        final requestBody = RandomHelper.mock(NotificationReminderCreateRequest)
+        final notificationReminder = RandomHelper.mock(NotificationReminderModel)
 
         when:
-        this.sut.handle(loginUser, notification.id, requestBody)
+        this.sut.handle(loginUser, notification.id, notificationReminder.id)
 
         then:
         noExceptionThrown()
         1 * this.notificationRepository.selectById(notification.id) >> Optional.of(notification)
+        1 * this.notificationReminderRepository.existsById(notificationReminder.id) >> true
         1 * loginUser.hasRole(Role.REMINDER_ADMIN) >> mockedHasRole
         (0..1) * notification.isContributed(loginUser) >> mockedIsContributed
 
@@ -47,11 +47,10 @@ class CreateNotificationReminderUseCase_UT extends AbstractUseCase_UT {
         given:
         final loginUser = Spy(UserModel)
         final notification = Spy(NotificationModel)
-
-        final requestBody = RandomHelper.mock(NotificationReminderCreateRequest)
+        final notificationReminder = RandomHelper.mock(NotificationReminderModel)
 
         when:
-        this.sut.handle(loginUser, notification.id, requestBody)
+        this.sut.handle(loginUser, notification.id, notificationReminder.id)
 
         then:
         1 * this.notificationRepository.selectById(notification.id) >> Optional.of(notification)
@@ -61,20 +60,26 @@ class CreateNotificationReminderUseCase_UT extends AbstractUseCase_UT {
         verifyException(exception, new ForbiddenException(ErrorCode.USER_HAS_NO_PERMISSION))
     }
 
-    def "handle: お知らせが存在しない場合は404エラー"() {
+    def "handle: お知らせ、もしくはリマインダーが存在しない場合は404エラー"() {
         given:
         final loginUser = Spy(UserModel)
         final notification = Spy(NotificationModel)
-
-        final requestBody = RandomHelper.mock(NotificationReminderCreateRequest)
+        final notificationReminder = RandomHelper.mock(NotificationReminderModel)
 
         when:
-        this.sut.handle(loginUser, notification.id, requestBody)
+        this.sut.handle(loginUser, notification.id, notificationReminder.id)
 
         then:
-        1 * this.notificationRepository.selectById(notification.id) >> Optional.empty()
+        1 * this.notificationRepository.selectById(notification.id) >> Optional.ofNullable(mockedNotification)
+        (0..1) * this.notificationReminderRepository.existsById(notificationReminder.id) >> isNotificationReminderExists
+        (0..1) * loginUser.hasRole(Role.REMINDER_ADMIN) >> true
         final BaseException exception = thrown()
-        verifyException(exception, new NotFoundException(ErrorCode.NOT_FOUND_NOTIFICATION))
+        verifyException(exception, new NotFoundException(expectedErrorCode))
+
+        where:
+        mockedNotification                   | isNotificationReminderExists || expectedErrorCode
+        null                                 | true                         || ErrorCode.NOT_FOUND_NOTIFICATION
+        RandomHelper.mock(NotificationModel) | false                        || ErrorCode.NOT_FOUND_NOTIFICATION_REMINDER
     }
 
 }

@@ -10,6 +10,7 @@ import cc.rits.membership.console.reminder.auth.LoginUserDetails;
 import cc.rits.membership.console.reminder.infrastructure.api.request.NotificationReminderCreateRequest;
 import cc.rits.membership.console.reminder.infrastructure.api.validation.RequestValidated;
 import cc.rits.membership.console.reminder.usecase.notification_reminder.CreateNotificationReminderUseCase;
+import cc.rits.membership.console.reminder.usecase.notification_reminder.DeleteNotificationReminderUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class NotificationReminderRestController {
 
     private final CreateNotificationReminderUseCase createNotificationReminderUseCase;
+
+    private final DeleteNotificationReminderUseCase deleteNotificationReminderUseCase;
 
     /**
      * リマインダー作成API
@@ -40,6 +43,23 @@ public class NotificationReminderRestController {
         @RequestValidated @RequestBody final NotificationReminderCreateRequest requestBody //
     ) {
         this.createNotificationReminderUseCase.handle(loginUser, notificationId, requestBody);
+    }
+
+    /**
+     * リマインダー削除API
+     *
+     * @param loginUser ログインユーザ
+     * @param notificationId お知らせID
+     * @param notificationReminderId リマインダーID
+     */
+    @DeleteMapping("/{notification_reminder_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteNotificationReminder( //
+        @AuthenticationPrincipal final LoginUserDetails loginUser, //
+        @PathVariable("notification_id") final Integer notificationId, //
+        @PathVariable("notification_reminder_id") final Integer notificationReminderId //
+    ) {
+        this.deleteNotificationReminderUseCase.handle(loginUser, notificationId, notificationReminderId);
     }
 
 }

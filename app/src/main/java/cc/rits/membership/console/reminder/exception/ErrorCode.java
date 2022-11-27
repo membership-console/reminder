@@ -44,6 +44,8 @@ public enum ErrorCode {
 
     NOT_FOUND_NOTIFICATION(HttpStatus.NOT_FOUND, 43001, "exception.not_found.notification"),
 
+    NOT_FOUND_NOTIFICATION_REMINDER(HttpStatus.NOT_FOUND, 43002, "exception.not_found.notification_reminder"),
+
     /**
      * 45000~45999: 500 Internal Server Error
      */
