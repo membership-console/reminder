@@ -29,7 +29,7 @@ public class NotificationReminderModel implements Serializable {
     Integer notificationId;
 
     /**
-     * リマインダー日時
+     * リマインド日時
      */
     LocalDateTime reminderDate;
 

@@ -1,4 +1,4 @@
-package cc.rits.membership.console.reminder.usecase.notification
+package cc.rits.membership.console.reminder.usecase.notification_reminder
 
 import cc.rits.membership.console.reminder.domain.model.NotificationModel
 import cc.rits.membership.console.reminder.domain.model.UserModel
@@ -8,30 +8,33 @@ import cc.rits.membership.console.reminder.exception.ErrorCode
 import cc.rits.membership.console.reminder.exception.ForbiddenException
 import cc.rits.membership.console.reminder.exception.NotFoundException
 import cc.rits.membership.console.reminder.helper.RandomHelper
+import cc.rits.membership.console.reminder.infrastructure.api.request.NotificationReminderCreateRequest
 import cc.rits.membership.console.reminder.usecase.AbstractUseCase_UT
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
- * DeleteNotificationUseCaseの単体テスト
+ * CreateNotificationReminderUseCaseの単体テスト
  */
-class DeleteNotificationUseCase_UT extends AbstractUseCase_UT {
+class CreateNotificationReminderUseCase_UT extends AbstractUseCase_UT {
 
     @Autowired
-    DeleteNotificationUseCase sut
+    CreateNotificationReminderUseCase sut
 
-    def "handle: 投稿者、もしくはリマインダーの管理者がお知らせを削除"() {
+    def "handle: 投稿者、もしくはリマインダーの管理者が リマインダーを作成"() {
         given:
         final loginUser = Spy(UserModel)
         final notification = Spy(NotificationModel)
 
+        final requestBody = RandomHelper.mock(NotificationReminderCreateRequest)
+
         when:
-        this.sut.handle(loginUser, notification.id)
+        this.sut.handle(loginUser, notification.id, requestBody)
 
         then:
+        noExceptionThrown()
         1 * this.notificationRepository.selectById(notification.id) >> Optional.of(notification)
         1 * loginUser.hasRole(Role.REMINDER_ADMIN) >> mockedHasRole
         (0..1) * notification.isContributed(loginUser) >> mockedIsContributed
-        1 * this.notificationRepository.deleteById(notification.id)
 
         where:
         mockedHasRole | mockedIsContributed
@@ -45,8 +48,10 @@ class DeleteNotificationUseCase_UT extends AbstractUseCase_UT {
         final loginUser = Spy(UserModel)
         final notification = Spy(NotificationModel)
 
+        final requestBody = RandomHelper.mock(NotificationReminderCreateRequest)
+
         when:
-        this.sut.handle(loginUser, notification.id)
+        this.sut.handle(loginUser, notification.id, requestBody)
 
         then:
         1 * this.notificationRepository.selectById(notification.id) >> Optional.of(notification)
@@ -59,10 +64,12 @@ class DeleteNotificationUseCase_UT extends AbstractUseCase_UT {
     def "handle: お知らせが存在しない場合は404エラー"() {
         given:
         final loginUser = Spy(UserModel)
-        final notification = RandomHelper.mock(NotificationModel)
+        final notification = Spy(NotificationModel)
+
+        final requestBody = RandomHelper.mock(NotificationReminderCreateRequest)
 
         when:
-        this.sut.handle(loginUser, notification.id)
+        this.sut.handle(loginUser, notification.id, requestBody)
 
         then:
         1 * this.notificationRepository.selectById(notification.id) >> Optional.empty()
