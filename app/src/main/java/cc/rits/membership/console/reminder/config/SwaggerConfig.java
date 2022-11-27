@@ -25,10 +25,18 @@ public class SwaggerConfig {
     private final ProjectProperty projectProperty;
 
     @Bean
-    public GroupedOpenApi publicApi() {
+    public GroupedOpenApi frontApi() {
         return GroupedOpenApi.builder() //
-            .group("Public API") //
-            .packagesToScan("cc.rits.membership.console.reminder.infrastructure.api.controller") //
+            .group("Front API") //
+            .packagesToScan("cc.rits.membership.console.reminder.infrastructure.api.controller.front") //
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi batchApi() {
+        return GroupedOpenApi.builder() //
+            .group("Batch API") //
+            .packagesToScan("cc.rits.membership.console.reminder.infrastructure.api.controller.batch") //
             .build();
     }
 

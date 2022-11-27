@@ -1,5 +1,7 @@
 package cc.rits.membership.console.reminder.infrastructure.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import cc.rits.membership.console.reminder.domain.model.NotificationReminderModel;
@@ -29,6 +31,17 @@ public class NotificationReminderRepository implements INotificationReminderRepo
     @Override
     public void deleteById(final Integer id) {
         this.notificationReminderMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void deleteByIds(final List<Integer> ids) {
+        if (ids.isEmpty()) {
+            return;
+        }
+
+        final var example = new NotificationReminderExample();
+        example.createCriteria().andIdIn(ids);
+        this.notificationReminderMapper.deleteByExample(example);
     }
 
     @Override

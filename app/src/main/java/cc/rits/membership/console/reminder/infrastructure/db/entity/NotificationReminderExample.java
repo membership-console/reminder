@@ -1,6 +1,6 @@
 package cc.rits.membership.console.reminder.infrastructure.db.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -315,63 +315,63 @@ public class NotificationReminderExample {
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateIsNull() {
-            addCriterion("`reminder_date` is null");
+        public Criteria andScheduledDateIsNull() {
+            addCriterion("`scheduled_date` is null");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateIsNotNull() {
-            addCriterion("`reminder_date` is not null");
+        public Criteria andScheduledDateIsNotNull() {
+            addCriterion("`scheduled_date` is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateEqualTo(LocalDateTime value) {
-            addCriterion("`reminder_date` =", value, "reminderDate");
+        public Criteria andScheduledDateEqualTo(LocalDate value) {
+            addCriterion("`scheduled_date` =", value, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateNotEqualTo(LocalDateTime value) {
-            addCriterion("`reminder_date` <>", value, "reminderDate");
+        public Criteria andScheduledDateNotEqualTo(LocalDate value) {
+            addCriterion("`scheduled_date` <>", value, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateGreaterThan(LocalDateTime value) {
-            addCriterion("`reminder_date` >", value, "reminderDate");
+        public Criteria andScheduledDateGreaterThan(LocalDate value) {
+            addCriterion("`scheduled_date` >", value, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateGreaterThanOrEqualTo(LocalDateTime value) {
-            addCriterion("`reminder_date` >=", value, "reminderDate");
+        public Criteria andScheduledDateGreaterThanOrEqualTo(LocalDate value) {
+            addCriterion("`scheduled_date` >=", value, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateLessThan(LocalDateTime value) {
-            addCriterion("`reminder_date` <", value, "reminderDate");
+        public Criteria andScheduledDateLessThan(LocalDate value) {
+            addCriterion("`scheduled_date` <", value, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateLessThanOrEqualTo(LocalDateTime value) {
-            addCriterion("`reminder_date` <=", value, "reminderDate");
+        public Criteria andScheduledDateLessThanOrEqualTo(LocalDate value) {
+            addCriterion("`scheduled_date` <=", value, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateIn(List<LocalDateTime> values) {
-            addCriterion("`reminder_date` in", values, "reminderDate");
+        public Criteria andScheduledDateIn(List<LocalDate> values) {
+            addCriterion("`scheduled_date` in", values, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateNotIn(List<LocalDateTime> values) {
-            addCriterion("`reminder_date` not in", values, "reminderDate");
+        public Criteria andScheduledDateNotIn(List<LocalDate> values) {
+            addCriterion("`scheduled_date` not in", values, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateBetween(LocalDateTime value1, LocalDateTime value2) {
-            addCriterion("`reminder_date` between", value1, value2, "reminderDate");
+        public Criteria andScheduledDateBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("`scheduled_date` between", value1, value2, "scheduledDate");
             return (Criteria) this;
         }
 
-        public Criteria andReminderDateNotBetween(LocalDateTime value1, LocalDateTime value2) {
-            addCriterion("`reminder_date` not between", value1, value2, "reminderDate");
+        public Criteria andScheduledDateNotBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("`scheduled_date` not between", value1, value2, "scheduledDate");
             return (Criteria) this;
         }
     }

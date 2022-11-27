@@ -26,7 +26,7 @@
 
                         notification_reminder.id                      AS notification_reminder__id,
                         notification_reminder.notification_id         AS notification_reminder__notification_id,
-                        notification_reminder.reminder_date           AS notification_reminder__reminder_date,
+                        notification_reminder.scheduled_date          AS notification_reminder__scheduled_date,
 
                         notification_browsing_history.notification_id AS notification_browsing_history__notification_id,
                         notification_browsing_history.user_id         AS notification_browsing_history__user_id,
@@ -36,7 +36,7 @@
                  LEFT JOIN notification_reminder ON notification_reminder.notification_id = notification.id
                  LEFT JOIN notification_browsing_history
                            ON notification_browsing_history.notification_id = notification.id
-        ORDER BY notification.id, notification_reminder.reminder_date, notification_browsing_history.user_id
+        ORDER BY notification.id, notification_reminder.scheduled_date, notification_browsing_history.user_id
     </select>
 
     <select id="selectById" resultMap="NotificationWithRemindersAndBrowsingHistoriesResultMap">
@@ -44,7 +44,7 @@
 
                         notification_reminder.id                      AS notification_reminder__id,
                         notification_reminder.notification_id         AS notification_reminder__notification_id,
-                        notification_reminder.reminder_date           AS notification_reminder__reminder_date,
+                        notification_reminder.scheduled_date          AS notification_reminder__scheduled_date,
 
                         notification_browsing_history.notification_id AS notification_browsing_history__notification_id,
                         notification_browsing_history.user_id         AS notification_browsing_history__user_id,
@@ -55,6 +55,6 @@
                  LEFT JOIN notification_browsing_history
                            ON notification_browsing_history.notification_id = notification.id
         WHERE notification.id = #{id}
-        ORDER BY notification_reminder.reminder_date, notification_browsing_history.user_id
+        ORDER BY notification_reminder.scheduled_date, notification_browsing_history.user_id
     </select>
 </mapper>

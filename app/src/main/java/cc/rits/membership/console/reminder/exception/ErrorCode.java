@@ -25,7 +25,7 @@ public enum ErrorCode {
 
     USER_IDS_MUST_NOT_BE_EMPTY(HttpStatus.BAD_REQUEST, 40004, "exception.bad_request.user_ids_must_not_be_empty"),
 
-    INVALID_NOTIFICATION_REMINDER_DATE(HttpStatus.BAD_REQUEST, 40005, "exception.bad_request.invalid_notification_reminder_date"),
+    INVALID_NOTIFICATION_REMINDER_DATE(HttpStatus.BAD_REQUEST, 40005, "exception.bad_request.invalid_notification_scheduled_date"),
 
     /**
      * 41000~41999: 401 Unauthorized

@@ -21,7 +21,7 @@ public class NotificationReminderFactory {
         return NotificationReminder.builder() //
             .id(notificationReminderModel.getId()) //
             .notificationId(notificationReminderModel.getNotificationId()) //
-            .reminderDate(notificationReminderModel.getReminderDate()) //
+            .scheduledDate(notificationReminderModel.getScheduledDate()) //
             .build();
     }
 

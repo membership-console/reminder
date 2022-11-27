@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `notification_reminder`
 (
     `id`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `notification_id` INT UNSIGNED NOT NULL,
-    `reminder_date`   DATETIME     NOT NULL,
+    `scheduled_date`  DATE         NOT NULL,
     `created_at`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),

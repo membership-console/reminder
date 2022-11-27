@@ -1,5 +1,7 @@
 package cc.rits.membership.console.reminder.domain.repository;
 
+import java.util.List;
+
 import cc.rits.membership.console.reminder.domain.model.NotificationReminderModel;
 
 /**
@@ -20,6 +22,13 @@ public interface INotificationReminderRepository {
      * @param id リマインダーID
      */
     void deleteById(final Integer id);
+
+    /**
+     * IDリストからリマインダーリストを削除
+     * 
+     * @param ids リマインダーIDリスト
+     */
+    void deleteByIds(final List<Integer> ids);
 
     /**
      * IDからリマインダーの存在チェック

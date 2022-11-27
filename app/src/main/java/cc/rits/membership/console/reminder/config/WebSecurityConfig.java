@@ -36,6 +36,8 @@ public class WebSecurityConfig {
         // アクセス許可
         http.authorizeRequests() //
             .antMatchers("/api/health").permitAll() //
+            // バッチAPIはlocalhostのみ許可する
+            .antMatchers("/api/batch/**").permitAll() //
             .antMatchers("/api/**").hasRole("USER") //
             .antMatchers("/**").permitAll() //
             .anyRequest().authenticated() //

@@ -1,6 +1,6 @@
 package cc.rits.membership.console.reminder.infrastructure.api.request;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import cc.rits.membership.console.reminder.exception.BadRequestException;
 import cc.rits.membership.console.reminder.exception.ErrorCode;
@@ -20,18 +20,18 @@ import lombok.NoArgsConstructor;
 public class NotificationReminderCreateRequest implements IRequest {
 
     /**
-     * リマインド日時
+     * リマインド予定日
      */
     @Schema(required = true)
-    LocalDateTime reminderDate;
+    LocalDate scheduledDate;
 
     /**
      * バリデーション
      */
     @Override
     public void validate() {
-        // リマインド日時
-        if (this.getReminderDate().isBefore(LocalDateTime.now())) {
+        // リマインド予定日
+        if (this.getScheduledDate().isBefore(LocalDate.now())) {
             throw new BadRequestException(ErrorCode.INVALID_NOTIFICATION_REMINDER_DATE);
         }
     }

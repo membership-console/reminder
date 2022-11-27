@@ -33,9 +33,13 @@ public class NotificationRepository implements INotificationRepository {
 
     @Override
     public List<NotificationModel> selectAll() {
-        final var users = this.iamClient.getUsers();
+        final var notifications = this.notificationMapper.selectAll();
+        if (notifications.isEmpty()) {
+            return List.of();
+        }
 
-        return this.notificationMapper.selectAll().stream() //
+        final var users = this.iamClient.getUsers();
+        return notifications.stream() //
             .map(notification -> {
                 final var contributor = users.stream() //
                     .filter(user -> notification.getContributorId().equals(user.getId())) //

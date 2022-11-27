@@ -1,6 +1,6 @@
 package cc.rits.membership.console.reminder.infrastructure.api.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import cc.rits.membership.console.reminder.domain.model.NotificationReminderModel;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,15 +31,15 @@ public class NotificationReminderResponse {
     Integer notificationId;
 
     /**
-     * リマインド日時
+     * リマインド予定日
      */
     @Schema(required = true)
-    LocalDateTime reminderDate;
+    LocalDate scheduledDate;
 
     public NotificationReminderResponse(final NotificationReminderModel notificationReminderModel) {
         this.id = notificationReminderModel.getId();
         this.notificationId = notificationReminderModel.getNotificationId();
-        this.reminderDate = notificationReminderModel.getReminderDate();
+        this.scheduledDate = notificationReminderModel.getScheduledDate();
     }
 
 }
