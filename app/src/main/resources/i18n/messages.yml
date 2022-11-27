@@ -4,6 +4,7 @@ exception:
     invalid_request_parameter: "不正なリクエストです。問題が解決しない場合は、管理者までご連絡ください。"
     invalid_notification_title: "タイトルは1~100文字にしてください。"
     invalid_notification_body: "本文は1~100文字にしてください。"
+    user_ids_must_not_be_empty: "最低1人以上の宛先を選択してください。"
   unauthorized:
     user_not_logged_in: "ユーザはログインしていません。問題が解決しない場合は、管理者までご連絡ください。"
   forbidden:

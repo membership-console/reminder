@@ -23,6 +23,8 @@ public enum ErrorCode {
 
     INVALID_NOTIFICATION_BODY(HttpStatus.BAD_REQUEST, 40003, "exception.bad_request.invalid_notification_body"),
 
+    USER_IDS_MUST_NOT_BE_EMPTY(HttpStatus.BAD_REQUEST, 40004, "exception.bad_request.user_ids_must_not_be_empty"),
+
     /**
      * 41000~41999: 401 Unauthorized
      */
