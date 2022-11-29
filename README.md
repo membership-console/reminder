@@ -1,6 +1,7 @@
 # Reminder
 
 ![CI](https://github.com/membership-console/reminder/workflows/CI/badge.svg)
+![Build](https://github.com/membership-console/reminder/workflows/Build/badge.svg)
 ![version](https://img.shields.io/badge/version-1.0.0__SNAPSHOT-blue.svg)
 
 ## 概要

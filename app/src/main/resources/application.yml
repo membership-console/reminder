@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url:
-    username:
-    password:
-    driver-class-name:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/reminder?useSSL=false&allowPublicKeyRetrieval=true&enabledTLSProtocols=TLSv1.2}
+    username: ${MYSQL_USERNAME:reminder}
+    password: ${MYSQL_PASSWORD:reminder}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   session:
     store-type: jdbc
   mvc:
@@ -37,7 +37,7 @@ springdoc:
     doc-expansion: none
 
 server:
-  port: 8083
+  port: ${PORT:8080}
   servlet:
     encoding:
       charset: UTF-8
@@ -58,6 +58,11 @@ project:
       type: XMLMAPPER
     map:
       package: db.mapper.base
+
+iam:
+  url: ${IAM_URL}
+  client-id: ${IAM_CLIENT_ID}
+  client-secret: ${IAM_CLIENT_SECRET}
 
 mybatis:
   configuration:
