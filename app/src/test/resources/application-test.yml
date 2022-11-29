@@ -4,8 +4,3 @@ spring:
     username: reminder
     password: reminder
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-iam:
-  url: API_URL
-  client-id: CLIENT_ID
-  client-secret: CLIENT_SECRET

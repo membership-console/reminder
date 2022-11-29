@@ -63,10 +63,6 @@ local.properties
 *.ipr
 out/
 
-### Application property ###
-app/src/main/resources/application-prod.yml
-app/src/main/resources/application-dev.yml
-
 ### Docker ###
 docker/mysql/db
 docker/mysql/log
