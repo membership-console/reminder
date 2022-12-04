@@ -2,11 +2,11 @@
 
 ![CI](https://github.com/membership-console/reminder/workflows/CI/badge.svg)
 ![Build](https://github.com/membership-console/reminder/workflows/Build/badge.svg)
-![version](https://img.shields.io/badge/version-1.0.0__SNAPSHOT-blue.svg)
+![version](https://img.shields.io/badge/version-1.0.0--SNAPSHOT-blue.svg)
 
 ## 概要
 
-本プロジェクトはMembership Consoleの通知基盤です。
+本プロジェクトは Membership Console の通知基盤です。
 
 ## 開発
 
@@ -46,22 +46,22 @@ $ java -jar reminder-<version>.jar  # -Dspring.profiles.active=<environment>
 $ ./gradlew bootRun
 ```
 
-### DBマイグレーションとコード生成
+### DB マイグレーションとコード生成
 
-DBマイグレーションとORMには下記ツールを利用しています。
+DB マイグレーションと ORM には下記ツールを利用しています。
 
-* Flyway: DBマイグレーションツール
-* MyBatis: ORMフレームワーク
+- Flyway: DB マイグレーションツール
+- MyBatis: ORM フレームワーク
 
-#### DBマイグレーション
+#### DB マイグレーション
 
-`flywayMigrate`タスクでDBマイグレーションを実行できます。
+`flywayMigrate`タスクで DB マイグレーションを実行できます。
 
 ```sh
 $ ./gradlew flywayMigrate
 ```
 
-Flywayはマイグレーションファイルのチェックサムを`flyway_schema_history`テーブルに保存することで、過去のマイグレーションファイルが書き換えられることを防いでいます。
+Flyway はマイグレーションファイルのチェックサムを`flyway_schema_history`テーブルに保存することで、過去のマイグレーションファイルが書き換えられることを防いでいます。
 
 しかしながら、開発中は書き換えたくなることもあるでしょう。その場合は、下記コマンドで歴史を消すことが可能です。クリーンが完了したら、再度マイグレーションコマンドを実行してください。
 
@@ -69,9 +69,9 @@ Flywayはマイグレーションファイルのチェックサムを`flyway_sch
 $ ./gradlew flywayClean
 ```
 
-#### MyBatisでコード生成
+#### MyBatis でコード生成
 
-下記コマンドで、DBからEntityファイルを生成できます。
+下記コマンドで、DB から Entity ファイルを生成できます。
 
 ```sh
 $ ./gradlew mbGenerate
@@ -79,9 +79,10 @@ $ ./gradlew mbGenerate
 
 ### 依存関係のアップデート
 
-[Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin)を使って、outdatedな依存関係をアップデートします。
+[Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin)を使って、outdated な依存関係をアップデートします。
 
 下記コマンドの実行後、出力されたレポートに従って[build.gradle](./app/build.gradle)に記載されたバージョンを書き換えてください。
 
 ```sh
 $ ./gradlew dependencyUpdates -Drevision=release
+```

@@ -46,7 +46,7 @@ server:
 
 project:
   name: reminder
-  version: 1.0.0_SNAPSHOT
+  version: 1.0.0-SNAPSHOT
   package: cc.rits.membership.console.reminder
   mybatis:
     config:
