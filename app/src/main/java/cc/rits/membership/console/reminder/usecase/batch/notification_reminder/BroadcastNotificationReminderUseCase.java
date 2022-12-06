@@ -2,7 +2,6 @@ package cc.rits.membership.console.reminder.usecase.batch.notification_reminder;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,11 +38,11 @@ public class BroadcastNotificationReminderUseCase {
             .peek(notification -> {
                 final var notificationReminders = notification.getReminders().stream() //
                     .filter(notificationReminder -> notificationReminder.isScheduledFor(now)) //
-                    .collect(Collectors.toList());
+                    .toList();
                 notification.setReminders(notificationReminders);
             }) //
             .filter(notification -> !notification.getReminders().isEmpty()) //
-            .collect(Collectors.toList());
+            .toList();
 
         if (notifications.isEmpty()) {
             return;
@@ -52,7 +51,7 @@ public class BroadcastNotificationReminderUseCase {
         // リマインドを配信する
         final var userIds = this.iamClient.getUsers().stream() //
             .map(UserModel::getId) //
-            .collect(Collectors.toList());
+            .toList();
         notifications.forEach(notification -> this.iamClient.sendEmail(notification.getTitle(), notification.getBody(), userIds));
 
         // 配信済みのリマインダーを削除する
@@ -60,7 +59,7 @@ public class BroadcastNotificationReminderUseCase {
             .map(NotificationModel::getReminders) //
             .flatMap(Collection::stream) //
             .map(NotificationReminderModel::getId) //
-            .collect(Collectors.toList());
+            .toList();
         this.notificationReminderRepository.deleteByIds(notificationReminderIds);
     }
 

@@ -2,7 +2,6 @@ package cc.rits.membership.console.reminder.infrastructure.api.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import cc.rits.membership.console.reminder.domain.model.NotificationBrowsingHistoryModel;
 import cc.rits.membership.console.reminder.domain.model.NotificationModel;
@@ -25,43 +24,43 @@ public class NotificationResponse {
     /**
      * お知らせID
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     Integer id;
 
     /**
      * タイトル
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String title;
 
     /**
      * 本文
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String body;
 
     /**
      * 既読フラグ
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     Boolean isViewed;
 
     /**
      * 投稿者
      */
-    @Schema(required = true, nullable = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
     UserResponse contributor;
 
     /**
      * 投稿日
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     LocalDateTime postedDate;
 
     /**
      * リマインダーリスト
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     List<NotificationReminderResponse> reminders;
 
     public NotificationResponse(final NotificationModel notificationModel, final UserModel loginUser) {
@@ -70,14 +69,15 @@ public class NotificationResponse {
         this.body = notificationModel.getBody();
         this.isViewed = notificationModel.getBrowsingHistories().stream() //
             .map(NotificationBrowsingHistoryModel::getUserId) //
-            .collect(Collectors.toList()).contains(loginUser.getId());
+            .toList() //
+            .contains(loginUser.getId());
         this.contributor = notificationModel.getContributor().isPresent() //
             ? new UserResponse(notificationModel.getContributor().get()) //
             : null;
         this.postedDate = notificationModel.getPostedDate();
         this.reminders = notificationModel.getReminders().stream() //
             .map(NotificationReminderResponse::new) //
-            .collect(Collectors.toList());
+            .toList();
     }
 
 }

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import cc.rits.membership.console.reminder.infrastructure.db.entity.join.NotificationWithRemindersAndBrowsingHistories;
 import lombok.*;
@@ -65,10 +64,10 @@ public class NotificationModel implements Serializable {
         this.postedDate = notification.getPostedDate();
         this.reminders = notification.getReminders().stream() //
             .map(NotificationReminderModel::new) //
-            .collect(Collectors.toList());
+            .toList();
         this.browsingHistories = notification.getBrowsingHistories().stream() //
             .map(NotificationBrowsingHistoryModel::new) //
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public NotificationModel(final String title, final String body, final UserModel user) {

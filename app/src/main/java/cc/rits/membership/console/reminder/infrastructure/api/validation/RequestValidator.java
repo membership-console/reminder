@@ -1,7 +1,7 @@
 package cc.rits.membership.console.reminder.infrastructure.api.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import cc.rits.membership.console.reminder.infrastructure.api.request.IRequest;
 

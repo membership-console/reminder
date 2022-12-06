@@ -1,7 +1,5 @@
 package cc.rits.membership.console.reminder.usecase.front.notification;
 
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +37,7 @@ public class CreateNotificationUseCase {
         // TODO: 同じアクセストークンを使い回す
         final var userIds = this.iamClient.getUsers().stream() //
             .map(UserModel::getId) //
-            .collect(Collectors.toList());
+            .toList();
         this.iamClient.sendEmail(requestBody.getTitle(), requestBody.getBody(), userIds);
     }
 
