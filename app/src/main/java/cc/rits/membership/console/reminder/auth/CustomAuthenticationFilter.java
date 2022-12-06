@@ -3,11 +3,6 @@ package cc.rits.membership.console.reminder.auth;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,15 +14,19 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cc.rits.membership.console.reminder.domain.model.UserModel;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Authentication Filter
  */
-public class ReminderAuthenticationFilter extends BasicAuthenticationFilter {
+public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
 
-    public ReminderAuthenticationFilter(final AuthenticationManager authenticationManager) {
+    public CustomAuthenticationFilter(final AuthenticationManager authenticationManager) {
         super(authenticationManager);
         this.objectMapper = new ObjectMapper().configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
     }

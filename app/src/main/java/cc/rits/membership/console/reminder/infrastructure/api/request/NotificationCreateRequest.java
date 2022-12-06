@@ -21,13 +21,13 @@ public class NotificationCreateRequest implements IRequest {
     /**
      * タイトル
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String title;
 
     /**
      * 本文
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String body;
 
     /**

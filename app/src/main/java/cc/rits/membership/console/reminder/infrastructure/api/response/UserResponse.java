@@ -19,31 +19,31 @@ public class UserResponse {
     /**
      * ユーザID
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     Integer id;
 
     /**
      * ファーストネーム
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String firstName;
 
     /**
      * ラストネーム
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String lastName;
 
     /**
      * メールアドレス
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     String email;
 
     /**
      * 入学年度
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     Integer entranceYear;
 
     public UserResponse(final UserModel userModel) {

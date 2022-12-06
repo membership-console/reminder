@@ -1,7 +1,6 @@
 package cc.rits.membership.console.reminder.usecase.front.notification;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,7 @@ public class GetNotificationsUseCase {
         final var notifications = this.notificationRepository.selectAll();
         final var unViewedNotifications = notifications.stream() //
             .filter(notification -> !notification.isViewed(loginUser)) //
-            .collect(Collectors.toList());
+            .toList();
 
         // 全てのお知らせを既読にする
         final var notificationBrowsingHistories = unViewedNotifications.stream() //
@@ -42,7 +41,7 @@ public class GetNotificationsUseCase {
                 .notificationId(notification.getId()) //
                 .userId(loginUser.getId()) //
                 .build() //
-            ).collect(Collectors.toList());
+            ).toList();
         this.notificationRepository.insertBrowsingHistories(notificationBrowsingHistories);
 
         return onlyUnviewed ? unViewedNotifications : notifications;

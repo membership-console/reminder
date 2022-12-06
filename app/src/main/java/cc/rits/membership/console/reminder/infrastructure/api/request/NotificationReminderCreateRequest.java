@@ -22,7 +22,7 @@ public class NotificationReminderCreateRequest implements IRequest {
     /**
      * リマインド予定日
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     LocalDate scheduledDate;
 
     /**

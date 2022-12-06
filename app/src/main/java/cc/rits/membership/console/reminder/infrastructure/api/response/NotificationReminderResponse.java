@@ -21,19 +21,19 @@ public class NotificationReminderResponse {
     /**
      * リマインダーID
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     Integer id;
 
     /**
      * お知らせID
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     Integer notificationId;
 
     /**
      * リマインド予定日
      */
-    @Schema(required = true)
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     LocalDate scheduledDate;
 
     public NotificationReminderResponse(final NotificationReminderModel notificationReminderModel) {

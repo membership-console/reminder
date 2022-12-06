@@ -4,3 +4,6 @@ spring:
     username: reminder
     password: reminder
     driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: true
+    clean-disabled: false

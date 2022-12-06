@@ -2,7 +2,6 @@ package cc.rits.membership.console.reminder.infrastructure.repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -46,7 +45,7 @@ public class NotificationRepository implements INotificationRepository {
                     .findFirst();
                 return new NotificationModel(notification, contributor);
             }) //
-            .collect(Collectors.toList());
+            .toList();
     }
 
     @Override
@@ -68,7 +67,7 @@ public class NotificationRepository implements INotificationRepository {
     public void insertBrowsingHistories(final List<NotificationBrowsingHistoryModel> notificationBrowsingHistoryModels) {
         final var notificationBrowsingHistories = notificationBrowsingHistoryModels.stream() //
             .map(this.notificationFactory::createNotificationBrowsingHistory) //
-            .collect(Collectors.toList());
+            .toList();
         this.notificationBrowsingHistoryMapper.bulkUpsert(notificationBrowsingHistories);
     }
 

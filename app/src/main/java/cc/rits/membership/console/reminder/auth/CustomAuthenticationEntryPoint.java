@@ -1,8 +1,5 @@
 package cc.rits.membership.console.reminder.auth;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -10,6 +7,8 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import cc.rits.membership.console.reminder.exception.ErrorCode;
 import cc.rits.membership.console.reminder.exception.UnauthorizedException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -17,7 +16,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 @Component
-public class ReminderAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final HandlerExceptionResolver handlerExceptionResolver;
 

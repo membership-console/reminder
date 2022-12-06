@@ -1,7 +1,5 @@
 package cc.rits.membership.console.reminder.infrastructure.api.controller.front;
 
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -50,7 +48,7 @@ public class NotificationRestController {
     ) {
         final var notifications = this.getNotificationsUseCase.handle(loginUser, onlyUnviewed).stream() //
             .map(notification -> new NotificationResponse(notification, loginUser)) //
-            .collect(Collectors.toList());
+            .toList();
         return new NotificationsResponse(notifications);
     }
 
